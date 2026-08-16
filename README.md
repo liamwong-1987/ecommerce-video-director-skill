@@ -46,13 +46,13 @@ ecommerce-video-director/
 │   ├── copywriting-library.md # 文案库（钩子/卖点/CTA 模板）
 │   └── compliance-checklist.md# 合规自检清单（来源标注）
 └── examples/
-    └── README.md              # 完整案例索引（如德伦堡小金罐 30s 种草）
+    └── README.md              # 完整案例索引
 ```
 
 **数据流**：用户需求 → P1–P4 产出纯文字剧本（唯一事实源，须用户确认）→ P5–P6 合规过滤 / 自检 → P7–P8 提取分镜 / 资产 SPEC → P9–P10 按选定模型映射出专用 PROMPT → P11 长视频尾帧高清重绘衔接。
 
 **示例**
-见 `examples/`，含完整跑通案例（德伦堡小金罐 30s 抖音种草等）。
+见 `examples/`，含完整跑通案例。
 
 **说明**
 这是个通用提示词工作流（Skill 格式），不绑定任何 AI 工具——加载到任何支持自定义指令的 AI 助手里都能用。
