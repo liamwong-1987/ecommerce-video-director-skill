@@ -56,6 +56,7 @@ description: 电商短视频导演——针对抖音、TikTok、小红书、快�
 | `references/h3-prompt.md` | Phase 10 输出 MiniMax H3 提示词时 | H3 关键帧/全能参考模式规范 |
 | `references/asset-workflow.md` | Phase 8 提取资产时 | 角色锚点/场景/产品/道具/关键帧 |
 | `references/copywriting-library.md` | Phase 4 写脚本文案时 | 钩子库（18 类）+ 商品时刻 + 文案模板 + 带货话术 |
+| `references/standup-copywriting.md` | Phase 4 写脱口秀/段子类口播时 | 脱口秀文案内核+四种构造法+多品类示例+合规边界 |
 | `examples/README.md` | 需要参考范例时 | 四个已交付视频的示例索引 |
 
 ---
