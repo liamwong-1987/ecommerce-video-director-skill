@@ -26,7 +26,7 @@
 git clone https://github.com/liamwong-1987/ecommerce-video-director-skill
 ```
 两种方式使用：
-- **作为 Skill 加载**：把整个目录放到你 AI 助手的 skills 文件夹（如 WorkBuddy 的 `~/.workbuddy/skills/`、Claude Code 的 `~/.claude/skills/`、CodeBuddy / Cursor 的对应 skills 目录），工具会按 SKILL.md 自动调用。
+- **作为 Skill 加载**：把整个目录放到 AI 编程助手的 skills 目录下（如 Codex 的 `~/.codex/skills/`、Claude Code 的 `~/.claude/skills/`、Cursor 的对应目录），工具会按 SKILL.md 自动调用。
 - **零配置直接用**：即使不配置 Skill，也可以把 `SKILL.md` 全文贴给任意 AI 对话，说"按这个流程帮我做一条 [产品] 的 [平台] [类型] 视频 PROMPT"，它就会照 11 阶段走。
 
 **架构**
