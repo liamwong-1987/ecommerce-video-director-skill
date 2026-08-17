@@ -52,7 +52,7 @@
 | `references/asset-workflow.md` | Phase 8 提取资产时 | 角色锚点/场景/产品/道具/关键帧 |
 | `references/copywriting-library.md` | Phase 4 写脚本文案时 | 钩子库（18 类）+ 商品时刻 + 文案模板 + 带货话术 |
 | `references/standup-copywriting.md` | Phase 4 写脱口秀/段子类口播时 | 脱口秀文案内核+构造法分析+基于真实段子改编工作流+正确示范+合规边界 |
-| `references/段子素材库（本地）` | Phase 4 写脱口秀/段子类口播时 | 段子素材由使用者本地提供，不随包发布；改编方法见 standup-copywriting.md |
+| `references/段子素材库.md` | Phase 4 写脱口秀/段子类口播时 | 随包发布的合规净化版段子库（已按抖音规则筛除涉政/涉枪/血腥/色情/低俗/赌毒内容，保留无害段子）；改编方法见 standup-copywriting.md |
 | `examples/README.md` | 需要参考范例时 | 四个已交付视频的示例索引 |
 
 ---
