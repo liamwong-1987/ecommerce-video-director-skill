@@ -1,5 +1,14 @@
 ---
-name: ecommerce-video-director
+name: 电商带货短视频导演
+slug: ecommerce-video-director
+displayName: "电商带货短视频导演"
+version: "1.0.1"
+summary: "面向抖音/TikTok/小红书等国内外电商平台的短视频一键生成 SKILL，覆盖 6 大视频类型 × 20 种风格 × 3 个视频生成模型，走完 11 步流程产出可复制的视频提示词包。"
+author: "Liam"
+category: "content-creation"
+platforms: [WorkBuddy]
+tags: [电商短视频, 带货, 抖音, 小红书, 即梦, Seedance, 脱口秀, 品牌TVC]
+license: "MIT"
 description: 电商短视频导演——针对抖音、TikTok、小红书、快手、视频号、B站、YouTube、Instagram、Facebook、Snapchat 等国内外电商短视频平台的视频快速生成全流程 SKILL。覆盖 6 大类电商视频类型（产品种草、剧情内容、品牌TVC、人设IP、促销转化、知识热点）与 20 种呈现风格（真人出镜/非真人低成本/叙事手法，类型×风格自由组合），支持 3 个视频生成模型（Seedance 2.0、Seedance 2.5、MiniMax H3）。流程：理解创意→摸需求→深度挖掘→纯文字剧本→合规检查→自检清单→提取分镜→提取资产→视频模型选择→生成视频PROMPT→尾帧高清重绘。当前实测可用为纯提示词模式（只交付提示词包+资产SPEC）；生成模式为待架构侧接入生视频 API 后的扩展工作流，本 SKILL 不内置 API 对接代码。深挖阶段必问"发行区域=国内/国外"，级联决定平台规则（广告法/导流/招商资质 vs 商业披露/FTC·ASA·DSA/受管制商品）、脚本语言文化、人物与场景资产设置。所有合规规则均标注来源（官方公约 / 源SKILL / 你实测 / 导演经验）。当用户需要做电商带货视频、产品种草、品牌广告/TVC、探店、老板IP/脱口秀、直播切片、开箱测评、剧情带货短视频，或提到抖音/TikTok/小红书/快手/视频号/B站/YouTube/Instagram 脚本、Seedance、MiniMax H3、即梦、批量生成视频、国内/国外平台规则时触发。
 ---
 
