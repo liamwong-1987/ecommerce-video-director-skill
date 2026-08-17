@@ -87,6 +87,15 @@ non_diegetic_music:       ← 配乐
 
 Zoom In/Out、Push In/Pull Out、Pan Left/Right、Truck Left/Right、Tilt Up/Down、Pedestal Up/Down、Arc Shot、Tracking Shot、Static Shot、Shake Slightly/Strongly、POV、Roll Clockwise/Counterclockwise，可加 `with small/large amplitude`、`at slow/fast speed`。
 
+### 节奏/速度（慢动作是间接实现）
+
+H3 **没有直接的「慢动作」开关**，慢速感靠两种间接方式：
+
+- **运镜术语**：`slow zoom in` / `slow tracking shot` / `at slow speed`，用「缓慢运镜」造慢速感。
+- **分段过程描述**：按时间戳分节写动作节奏（`0-2s fast action... 2-6s steady...`），每段不同动作节奏。
+
+真要慢动作/升格（放慢画面），需**生成高帧率后在后期软件放慢**（模型本身不直接出慢动作）。提示词里写 "slow motion" 不会真正放慢，只产生慢速运镜观感。升格需求优先考虑 Seedance 2.5（时间锚点变速）或可灵（slow-motion 原生）。
+
 ### 说话者与对白
 
 - 说话者按实际发声顺序分配 `(S1)`、`(S2)`，多人 `(S1,S2)`
