@@ -4,7 +4,7 @@ slug: ecommerce-video-director
 displayName: "电商带货短视频导演"
 version: 1.0.4
 summary: "面向抖音/TikTok/小红书等国内外电商平台的短视频一键生成 SKILL，覆盖 6 大视频类型 × 20 种风格 × 3 个视频生成模型，走完 11 步流程产出可复制的视频提示词包。"
-author: "Liam"
+author: "liamflux"
 category: "content-creation"
 platforms: [WorkBuddy]
 tags: [电商短视频, 带货, 抖音, 小红书, 即梦, Seedance, 脱口秀, 品牌TVC]
