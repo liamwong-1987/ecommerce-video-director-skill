@@ -3,7 +3,7 @@ name: 电商带货短视频导演
 slug: ecommerce-video-director
 displayName: "电商带货短视频导演"
 version: 1.1.9
-summary: "面向抖音/TikTok/小红书等国内外电商平台的短视频一键生成 SKILL，覆盖 6 大视频类型 × 20 种风格 × 5 个视频生成模型，走完 12 步流程（含 Phase 0 模型前置确认）产出可复制的视频提示词包。"
+summary: "面向抖音/TikTok/小红书等国内外电商平台的短视频一键生成 SKILL，覆盖 6 大视频类型 × 20 种风格 × 5 个视频生成模型，走完 12 步流程（含 Phase 0 模型前置确认）产出可复制的视频提示词包；内置 video_api.cjs（OpenAI 兼容）配好环境变量即可直接出片。"
 author: "liamflux"
 category: "content-creation"
 platforms: [WorkBuddy]
