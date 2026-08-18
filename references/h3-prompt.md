@@ -15,6 +15,12 @@
 
 **输入上限**（Ref2VA）：9 图 + 3 视频 + 3 音频，合计 ≤12 个。音频不能作为唯一输入。默认时长 5.00s。
 
+## 口播 / 对白路由规则（电商带货必读）
+
+- **含口播 / 对白（有声叙事）→ 强制全能参考模式 Ref2VA**：即便只有 1 张图也走 Ref2VA（以 `keyframe completion` 锚定该图为首帧），对白用 `<d>[Chinese] 原话</d>` 写进 `detailed_description`。
+- **禁止**用关键帧模式（FL2VA/I2VA/L2VA）承载口播——它只有 3 字段、无 `detailed_description`，对白会被静默丢弃（即模型拿到口播需求却不生成对白）。
+- 纯视觉无口播（如 ASMR / 产品特写 / 纯展示）才用关键帧模式（I2VA/FL2VA）。
+
 ---
 
 ## 模式 1：关键帧模式（FL2VA/I2VA/L2VA）
@@ -86,6 +92,22 @@ non_diegetic_music:       ← 配乐
 ### 运镜（英文）
 
 Zoom In/Out、Push In/Pull Out、Pan Left/Right、Truck Left/Right、Tilt Up/Down、Pedestal Up/Down、Arc Shot、Tracking Shot、Static Shot、Shake Slightly/Strongly、POV、Roll Clockwise/Counterclockwise，可加 `with small/large amplitude`、`at slow/fast speed`。
+
+### 六维表演（英文落地）+ 分级运镜
+
+H3 真人还原度较低，六维表演在 `detailed_description` 内用英文写，**重点写体态/动作中间态，微表情少写**（详见 `model-specs.md`「导演思维公式」）：
+
+- 情绪禁抽象词（不写 `sad/angry/tense`），改用可见生理细节：`shifts weight forward`、`shoulders rise and fall with breath`、`fingers tighten on the hem`、`throat rolls in a swallow`、`ambient light drift across the face`。
+- 动作中间态优先：`hand hovers mid-air`、`half-step pause`、`turns and hesitates`——不写已完成的静态结果。
+- 微表情少写（脸还原不准），用身体/姿势传情绪。
+
+**分级运镜**（按景别选，术语用上文「运镜」清单）：
+
+| 景别 | 运镜标签 |
+|---|---|
+| 特写/大特写 | `Static Shot` 或 `Static Shot with small shake` |
+| 中近景/台词 | `Tracking Shot with small amplitude, at slow speed` |
+| 全景/空镜 | `Pan/Truck` 配合 `natural handheld breathing` |
 
 ### 节奏/速度（慢动作是间接实现）
 

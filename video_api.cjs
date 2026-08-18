@@ -3,7 +3,8 @@
  * video_api.cjs — 通用视频/图片生成 API 客户端（OpenAI 兼容格式，模板）
  *
  * 环境变量（不写入 SKILL，用户本地配置）：
- *   VIDEO_API_BASE   中转站地址，默认 https://api.apimart.ai/v1
+ *   VIDEO_API_BASE   中转站地址（OpenAI 兼容格式。必填，无默认值——不写具体供应商地址）
+ *                    示例：https://<your-relay-host>/v1   (用你自己购买的中转站)
  *   VIDEO_API_KEY    API key
  *   VIDEO_MODEL      模型名（可用 --model 覆盖）
  *
@@ -22,9 +23,13 @@
 const https = require('https');
 const fs = require('fs');
 
-const BASE = process.env.VIDEO_API_BASE || 'https://api.apimart.ai/v1';
+const BASE = process.env.VIDEO_API_BASE;
 const KEY  = process.env.VIDEO_API_KEY;
 
+if (!BASE) {
+  console.error(JSON.stringify({ code: -100, msg: '缺少 VIDEO_API_BASE 环境变量。请按 OpenAI 兼容格式设置，例如：set VIDEO_API_BASE=https://<your-relay-host>/v1（不能用我们演示的中转站，必须用你自己购买的中转站）' }));
+  process.exit(1);
+}
 if (!KEY) {
   console.error(JSON.stringify({ code: -100, msg: '缺少 VIDEO_API_KEY 环境变量，请先配置（见 SKILL「凭证配置」节）' }));
   process.exit(1);
