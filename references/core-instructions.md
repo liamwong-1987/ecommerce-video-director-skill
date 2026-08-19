@@ -64,7 +64,7 @@
 | `references/seedance-mini-prompt.md` | Phase 10 输出 Seedance 2.0 Mini 提示词时 | Seedance 2.0 Mini 一句话公式 + @引用 + 时间戳 + 禁止项（不可套用六板块） |
 | `references/h3-prompt.md` | Phase 10 输出 MiniMax H3 提示词时 | H3 关键帧/全能参考模式规范 |
 | `references/kling-prompt.md` | Phase 10 输出可灵 Kling 提示词时 | 可灵时间轴分镜标签 + 中文场景英文参数 + I2V 身份锚定 + 口型同步 + 避坑（真人口播/探店专用） |
-| `references/asset-workflow.md` | Phase 8 提取资产时 | 角色锚点/场景/产品/道具/关键帧 |
+| `references/asset-workflow.md` | Phase 8 提取资产时 | 角色锚点/场景/产品/道具/关键帧；所有资产统一字段化 PROMPT 格式与 Exact/Reference-locked/Conceptual 真实性等级 |
 | `references/copywriting-library.md` | Phase 4 写脚本文案时 | 钩子库（18 类）+ 商品时刻 + 文案模板 + 带货话术 |
 | `references/standup-copywriting.md` | Phase 4 写脱口秀/段子类口播时 | 脱口秀文案内核+构造法分析+基于真实段子改编工作流+正确示范+合规边界 |
 | `references/段子素材库（本地）` | Phase 4 写脱口秀/段子类口播时 | 段子素材由使用者本地提供，不随包发布；改编方法见 standup-copywriting.md |
@@ -107,7 +107,7 @@ SKILL 不假设 agent 有生图/生视频能力。本 SKILL 内置 video_api.cjs
 - 进入批量：Phase 3 问"要批量吗？" → 选「单品多版本矩阵」
 - 建矩阵：SKILL 给出版本矩阵模板，每行一个版本（列：钩子类型 / 场景 / 风格 / 时长 / 平台）
 - 循环执行：对每个版本跑完整流程，产出一批提示词（生成模式为架构侧接入 API 后的目标行为，当前每个版本交付一批提示词）
-- **资产复用（批量时）**：产品四视图（**1×4 拼接单图**）、人视三视图（**1×3 拼接单图**）跨版本/跨视频共用（同 SKU/同角色各 1 张）；服装设定/场景锚点/道具/首尾帧每条视频独立，按各自分镜脚本重新生成不同变体，不跨视频复用（详见 `references/asset-workflow.md`）
+- **资产复用（批量时）**：产品四视图（**1×4 拼接单图**）、人视三视图（**1×3 拼接单图**）跨版本/跨视频共用（同 SKU/同角色各 1 张）；服装按“角色 × 实际服装状态”计数，同一状态跨镜复用、跨视频换状态；场景锚点/道具/首尾帧每条视频独立，按各自分镜脚本生成不同变体，不跨视频复用（详见 `references/asset-workflow.md`）
 - 多产品矩阵（N 个 SKU）同理，只是外层再套一层产品清单循环；每 SKU 一张三视图拼接单图，每角色一张人视三视图拼接单图，互不混用
 - 多片段拼接（15s×N 拼 30/45/60s）**不属于批量**，归到 Phase 11 的 2.0/Mini/H3 时长衔接子流程
 
