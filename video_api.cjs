@@ -7,6 +7,7 @@
  *                    示例：https://<your-relay-host>/v1   (用你自己购买的中转站)
  *   VIDEO_API_KEY    API key
  *   VIDEO_MODEL      模型名（可用 --model 覆盖）
+ *   VIDEO_API_TIMEOUT_MS  单次 HTTP 超时毫秒数（可选，默认 120000）
  *
  * 子命令：
  *   image  --prompt "..." [--image @图1.png ...] [--size 16:9]
@@ -20,42 +21,64 @@
  * 参考图喂法：本地图 → base64 data URL；图片走 input_image，视频走 image_url（可改）。
  */
 
+const http = require('http');
 const https = require('https');
 const fs = require('fs');
 
 const BASE = process.env.VIDEO_API_BASE;
 const KEY  = process.env.VIDEO_API_KEY;
+const REQUEST_TIMEOUT_MS = Number(process.env.VIDEO_API_TIMEOUT_MS || 120000);
 
-if (!BASE) {
-  console.error(JSON.stringify({ code: -100, msg: '缺少 VIDEO_API_BASE 环境变量。请按 OpenAI 兼容格式设置，例如：set VIDEO_API_BASE=https://<your-relay-host>/v1（不能用我们演示的中转站，必须用你自己购买的中转站）' }));
-  process.exit(1);
-}
-if (!KEY) {
-  console.error(JSON.stringify({ code: -100, msg: '缺少 VIDEO_API_KEY 环境变量，请先配置（见 SKILL「凭证配置」节）' }));
-  process.exit(1);
+function validateConfig() {
+  if (!BASE) throw new Error('缺少 VIDEO_API_BASE 环境变量。请设置为你已获授权使用的 HTTP(S) 接口根地址');
+  if (!KEY) throw new Error('缺少 VIDEO_API_KEY 环境变量，请先配置（见 core-instructions.md「凭证配置」）');
+  if (!Number.isFinite(REQUEST_TIMEOUT_MS) || REQUEST_TIMEOUT_MS <= 0) {
+    throw new Error('VIDEO_API_TIMEOUT_MS 必须是大于 0 的毫秒数');
+  }
+  const u = new URL(BASE);
+  if (!['http:', 'https:'].includes(u.protocol)) throw new Error('VIDEO_API_BASE 只支持 http:// 或 https://');
 }
 
 // ---- 参数解析 ----
 function args(argv) {
   const o = { images: [] };
+  const next = (flag, i) => {
+    const value = argv[i + 1];
+    if (!value || value.startsWith('--')) throw new Error(`${flag} 缺少参数值`);
+    return value;
+  };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === '--prompt')        o.prompt = argv[++i];
-    else if (a === '--image')    o.images.push(argv[++i].replace(/^@/, ''));
-    else if (a === '--duration') o.duration = Number(argv[++i]);
-    else if (a === '--size')     o.size = argv[++i];
-    else if (a === '--model')    o.model = argv[++i];
+    if (a === '--prompt')        o.prompt = next(a, i++);
+    else if (a === '--image')    o.images.push(next(a, i++).replace(/^@/, ''));
+    else if (a === '--duration') o.duration = Number(next(a, i++));
+    else if (a === '--size')     o.size = next(a, i++);
+    else if (a === '--model')    o.model = next(a, i++);
+    else throw new Error(`未知参数：${a}`);
   }
   return o;
+}
+
+function validateGenerationArgs(o, kind) {
+  if (!o.prompt || !o.prompt.trim()) throw new Error(`${kind} 命令必须提供非空 --prompt`);
+  if (!(o.model || process.env.VIDEO_MODEL)) throw new Error(`${kind} 命令必须提供 --model 或 VIDEO_MODEL`);
+  if (kind === 'video' && (!Number.isFinite(o.duration) || o.duration <= 0)) {
+    throw new Error('video 命令的 --duration 必须是大于 0 的秒数');
+  }
+  for (const imagePath of o.images) {
+    if (!fs.existsSync(imagePath) || !fs.statSync(imagePath).isFile()) throw new Error(`参考图不存在或不是文件：${imagePath}`);
+  }
 }
 
 // ---- 本地图 → base64 data URL（图生图/图生视频地基）----
 function loadImages(paths) {
   return paths.map(p => {
     const buf = fs.readFileSync(p);
-    const mime = p.toLowerCase().endsWith('.png') ? 'image/png'
-      : p.toLowerCase().endsWith('.jpg') || p.toLowerCase().endsWith('.jpeg') ? 'image/jpeg'
-      : p.toLowerCase().endsWith('.webp') ? 'image/webp' : 'image/png';
+    const lower = p.toLowerCase();
+    const mime = lower.endsWith('.png') ? 'image/png'
+      : lower.endsWith('.jpg') || lower.endsWith('.jpeg') ? 'image/jpeg'
+      : lower.endsWith('.webp') ? 'image/webp' : null;
+    if (!mime) throw new Error(`不支持的参考图格式（仅 png/jpg/jpeg/webp）：${p}`);
     return 'data:' + mime + ';base64,' + buf.toString('base64');
   });
 }
@@ -63,10 +86,13 @@ function loadImages(paths) {
 // ---- 通用 HTTP 请求（返回 { statusCode, body }）----
 function req(method, path, body) {
   return new Promise((resolve, reject) => {
+    validateConfig();
     const u = new URL(BASE.replace(/\/$/, '') + path);
+    const transport = u.protocol === 'http:' ? http : https;
     const data = body ? JSON.stringify(body) : null;
-    const r = https.request({
-      method, hostname: u.hostname, path: u.pathname, port: u.port || 443,
+    const r = transport.request({
+      method, hostname: u.hostname, path: u.pathname + u.search,
+      port: u.port || (u.protocol === 'http:' ? 80 : 443),
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KEY,
                  ...(data ? { 'Content-Length': Buffer.byteLength(data) } : {}) }
     }, res => {
@@ -78,6 +104,7 @@ function req(method, path, body) {
       });
     });
     r.on('error', reject);
+    r.setTimeout(REQUEST_TIMEOUT_MS, () => r.destroy(new Error(`请求超时（${REQUEST_TIMEOUT_MS}ms）`)));
     if (data) r.write(data);
     r.end();
   });
@@ -96,22 +123,29 @@ function mapError(statusCode, body) {
   return { code: statusCode, msg, detail: body?.error?.message || body?.msg || JSON.stringify(body) };
 }
 
+function apiError(statusCode, body) {
+  const mapped = mapError(statusCode, body);
+  return Object.assign(new Error(mapped.msg), { code: mapped.code, detail: mapped.detail });
+}
+
 // ---- 图片生成（同步；图生图喂 --image）----
 async function genImage(o) {
+  validateGenerationArgs(o, 'image');
   const body = { model: o.model || process.env.VIDEO_MODEL, prompt: o.prompt };
   if (o.size) body.size = o.size;
   if (o.images.length) body.input_image = loadImages(o.images); // 参考图 → base64
   const { statusCode, body: res } = await req('POST', '/images/generations', body);
-  if (statusCode >= 400) throw Object.assign(new Error(mapError(statusCode, res).msg), { code: statusCode });
+  if (statusCode >= 400) throw apiError(statusCode, res);
   return res?.data?.[0]?.url || res?.data?.[0]?.b64_json || JSON.stringify(res);
 }
 
 // ---- 视频生成（异步；提交后返回任务 ID，不阻塞）----
 async function submitVideo(o) {
+  validateGenerationArgs(o, 'video');
   const body = { model: o.model || process.env.VIDEO_MODEL, prompt: o.prompt, duration: o.duration };
   if (o.images.length) body.image_url = loadImages(o.images); // 参考图 → base64
   const { statusCode, body: res } = await req('POST', '/videos', body);
-  if (statusCode >= 400) throw Object.assign(new Error(mapError(statusCode, res).msg), { code: statusCode });
+  if (statusCode >= 400) throw apiError(statusCode, res);
   const id = res.id || res.video_id || res.data?.id;
   if (!id) throw new Error('提交视频失败，未拿到任务 ID：' + JSON.stringify(res));
   return id;
@@ -119,14 +153,26 @@ async function submitVideo(o) {
 
 // ---- 查询视频任务状态（单次，不阻塞）----
 async function statusVideo(id) {
-  const { statusCode, body: res } = await req('GET', '/videos/' + id);
-  if (statusCode >= 400) throw Object.assign(new Error(mapError(statusCode, res).msg), { code: statusCode });
+  if (!id) throw new Error('status 命令必须提供 task_id');
+  const { statusCode, body: res } = await req('GET', '/videos/' + encodeURIComponent(id));
+  if (statusCode >= 400) throw apiError(statusCode, res);
   const st  = res.status || res.state || res.data?.status;
   const out = res.video_url || res.url || res.output || res.data?.video_url;
   return { id, status: st, result: out || null, raw: res };
 }
 
 // ---- 主入口 ----
+function usage() {
+  return [
+    '用法:',
+    '  node video_api.cjs image --prompt "..." [--image @图1.png] [--size 16:9] [--model xxx]',
+    '  node video_api.cjs video --prompt "..." --duration 15 [--image @图1.png] [--model xxx]',
+    '  node video_api.cjs status <task_id>',
+    '环境变量: VIDEO_API_BASE, VIDEO_API_KEY, VIDEO_MODEL, VIDEO_API_TIMEOUT_MS（默认 120000）',
+    '说明: 通用模板不会自动付费重试；供应商字段不兼容时请使用对应官方适配器。'
+  ].join('\n');
+}
+
 (async () => {
   const cmd = process.argv[2];
   try {
@@ -136,12 +182,13 @@ async function statusVideo(id) {
       console.log(JSON.stringify({ task_id: await submitVideo(args(process.argv.slice(3))) }));
     } else if (cmd === 'status') {
       console.log(JSON.stringify(await statusVideo(process.argv[3])));
+    } else if (cmd === '--help' || cmd === '-h' || cmd === 'help') {
+      console.log(usage());
     } else {
-      console.error('用法: node video_api.cjs <image|video|status> ...');
-      process.exit(1);
+      throw new Error(usage());
     }
   } catch (e) {
-    console.error(JSON.stringify({ code: e.code || -100, msg: e.message }));
+    console.error(JSON.stringify({ code: e.code || -100, msg: e.message, ...(e.detail ? { detail: e.detail } : {}) }));
     process.exit(1);
   }
 })();
