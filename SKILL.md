@@ -2,7 +2,7 @@
 name: 电商带货短视频导演
 slug: ecommerce-video-director
 displayName: "电商带货短视频导演"
-version: 1.5.2
+version: 1.5.3
 summary: "面向国内外电商平台的短视频导演工作流，帮助创作者把产品卖点、创意和平台要求整理成可执行的脚本、分镜、视觉资产与视频生成提示词。支持产品种草、剧情带货、品牌广告、人设内容、促销转化和知识类视频，适配 Seedance、可灵、MiniMax 等主流模型；同时关注产品、人物、场景与多镜头表现的稳定性。支持纯提示词创作，也可在配置接口后进入生成流程。"
 author: "liamflux"
 category: "content-creation"
