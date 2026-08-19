@@ -20,6 +20,8 @@
 - **含口播 / 对白（有声叙事）→ 强制全能参考模式 Ref2VA**：即便只有 1 张图也走 Ref2VA（以 `keyframe completion` 锚定该图为首帧），对白用 `<d>[Chinese] 原话</d>` 写进 `detailed_description`。
 - **禁止**用关键帧模式（FL2VA/I2VA/L2VA）承载口播——它只有 3 字段、无 `detailed_description`，对白会被静默丢弃（即模型拿到口播需求却不生成对白）。
 - 纯视觉无口播（如 ASMR / 产品特写 / 纯展示）才用关键帧模式（I2VA/FL2VA）。
+- **交付前硬阻断**：分镜存在说话、口播、介绍、回答、对镜讲解或张嘴表达时，若不是 Ref2VA、没有 `detailed_description`、没有说话人 `(S1)/(S2)`、或没有 `<d>[Language] 确认剧本原话</d>`，一律 FAIL，禁止交付。
+- 无对白镜必须在 `detailed_description` 写明 `No dialogue; only ...`；画外音必须说明画面内角色双唇闭合。
 
 ---
 

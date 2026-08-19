@@ -59,7 +59,7 @@
 | `references/video-types.md` | Phase 3 确定视频类型时 | 6 大类电商视频类型 + 每类模板 |
 | `references/style-guide.md` | Phase 3 选择呈现风格时 | 14 种呈现风格（真人/非真人/叙事）+ 类型×风格默认映射 |
 | `references/platform-strategies.md` | Phase 5 做合规检查时 | 三平台官方合规规则 + 来源标注 |
-| `references/model-specs.md` | Phase 0 模型前置确认时 / Phase 10 写 PROMPT 前（必加载） | 五模型能力对比 + 导演思维公式（双步框架）+ 运镜意图对照表 + 各模型 PROMPT 翻译公式 |
+| `references/model-specs.md` | Phase 0 模型前置确认时 / Phase 10 写 PROMPT 前（必加载） | 五模型能力对比 + 导演思维公式（双步框架）+ 运镜意图对照表 + 各模型 PROMPT 翻译公式；官方公式仅作模型语法参考，不能替代实际镜头需求 |
 | `references/seedance-prompt.md` | Phase 10 输出 Seedance 提示词时 | Seedance 2.0/2.5 六板块 + 官方规则(时间戳/括号/精准标注/语言/运镜/区域编辑) + 电影化叙事法 + 过审合规 + 影像技术词汇库 |
 | `references/seedance-mini-prompt.md` | Phase 10 输出 Seedance 2.0 Mini 提示词时 | Seedance 2.0 Mini 一句话公式 + @引用 + 时间戳 + 禁止项（不可套用六板块） |
 | `references/h3-prompt.md` | Phase 10 输出 MiniMax H3 提示词时 | H3 关键帧/全能参考模式规范 |
@@ -72,6 +72,7 @@
 | `references/viral-replicate.md` | Phase 1 识别到爆款复刻时 | 爆款复刻全流程：版权四层面、拆解六维、复刻度三档、同品/不同品两套逻辑 |
 | `examples/README.md` | 需要参考范例时 | 四个已交付视频的示例索引 |
 | `references/process-flow.md` | Phase 0~11 执行流程 | 13 个阶段完整指令 + 资产/合规规则（从 SKILL.md 拆分） |
+| `references/prompt-delivery-contract.md` | Phase 10 写任何模型 PROMPT 前（必加载） | 模型无关事实卡、官方公式与实际项目需求的优先级、真实风格/台词/产品路由总锁、最终 FAIL 验收与交付包 |
 
 ---
 
