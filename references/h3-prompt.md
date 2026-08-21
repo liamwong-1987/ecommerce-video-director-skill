@@ -34,7 +34,7 @@
 
 integrated_multimodal_description: [Shot 1] ...
 overall_soundscape: ...
-non_diegetic_music: ...
+non_diegetic_music: ...   # 配乐；本 SKILL 默认不生成 BGM，禁 BGM 时填 N/A 或不输出
 ```
 
 **对齐指令**（首行，按模式）：
@@ -56,8 +56,8 @@ subject_definitions:      ← 定义 <Subject N>/<Picture N>/<Video N>/<Audio N>
 summary:                  ← 任务类型前缀 + 一段概述
 retention_analysis:       ← 每个标签的保留关系标记
 detailed_description:     ← 主生成正文（350-500 词）
-overall_soundscape:       ← 环境声
-non_diegetic_music:       ← 配乐
+overall_soundscape:       ← 环境声/动作音效
+non_diegetic_music:       ← 配乐（本 SKILL 默认不生成 BGM，禁 BGM 时填 N/A 或不输出）
 ```
 
 ### 标签体系
@@ -132,7 +132,7 @@ H3 **没有直接的「慢动作」开关**，慢速感靠两种间接方式：
 ### 声音字段
 
 - `overall_soundscape`：1-4 句英文，环境声/物理动作声/非语言人声，不重复对白
-- `non_diegetic_music`：1-3 句英文，画外配乐的乐器/速度/节奏，不用空泛情绪词
+- `non_diegetic_music`：1-3 句英文，画外配乐的乐器/速度/节奏，不用空泛情绪词；**本 SKILL 默认不生成 BGM，禁 BGM 时该字段填 N/A 或不输出**
 - 全程静音才写 `N/A`
 
 ### 输出纪律
