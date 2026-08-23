@@ -2,7 +2,7 @@
 name: 电商带货｜AI 视频一条龙
 slug: ecommerce-video-director-skill
 displayName: "电商带货｜AI 视频一条龙"
-version: 1.6.3
+version: 1.6.4
 summary: "电商带货短视频导演，面向抖音、TikTok、小红书、快手、视频号、B站、YouTube、Instagram 等国内外平台。用户要做电商短视频策划、带货脚本、必交付的 3×3 九宫格分镜图、人物/产品/场景资产、Seedance/可灵/MiniMax 视频提示词、成本预估或发布合规检查时使用；支持纯提示词与配置接口两种工作模式。"
 author: "liamflux"
 category: "content-creation"
@@ -121,6 +121,10 @@ AI 视频模型对包装文字、Logo 和复杂产品细节的还原能力存在
 - 保留黑白素描人物资产以及 PROMPT 中“100%一致”的强约束表达，同时区分模型约束目标与最终效果保证。
 - 统一多模型逐镜路由、提示词验收、真实包装合成、字幕/标签和生成接口规则，修复冲突与失效引用。
 - 增加失败次数上限、成本保护、接口超时与明确报错，避免无边界重跑和静默失败。
+
+### v1.6.4
+
+- 公开名称改为“电商带货 | AI 视频一条龙”，slug 保持 `ecommerce-video-director-skill` 不变，确保 SkillHub 继续更新原技能而不是创建新技能。
 
 ### v1.6.3
 
