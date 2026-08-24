@@ -1,7 +1,6 @@
 {
+  "ownerId": "629678",
+  "publishedAt": 1787482273462,
   "slug": "ecommerce-video-director-skill",
-  "name": "ecommerce-video-director-skill",
-  "version": "1.6.5",
-  "installedAt": 1787006574366,
-  "source": "skillhub"
+  "version": "1.7.0"
 }
